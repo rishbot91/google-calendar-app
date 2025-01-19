@@ -7,9 +7,7 @@ const router = express.Router();
 router.get(
   '/google',
   passport.authenticate('google', {
-    // scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.readonly'],
-    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.events'],
-    // scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/calendar'],
   })
 );
 

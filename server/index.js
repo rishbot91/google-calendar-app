@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const cookieSession = require('cookie-session');
+const session = require('express-session');
 const passport = require('passport');
 require('./passport-setup'); // We will create this next
 
@@ -14,11 +14,14 @@ app.use(cors({
   credentials: true,
 }));
 
-// Cookie Session
-app.use(cookieSession({
-  name: 'google-auth-session',
-  keys: [process.env.SESSION_SECRET],
-  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+// Session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  }
 }));
 
 // Passport setup
