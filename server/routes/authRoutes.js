@@ -25,9 +25,24 @@ router.get(
 
 // @route   GET /auth/logout
 router.get('/logout', (req, res) => {
-  req.logout();
-  req.session = null;
-  res.send('Logged out');
+  if (req.logout) {
+    req.logout((err) => {
+      if (err) {
+        console.error('Logout error:', err);
+        return res.status(500).json({ error: 'Failed to log out' });
+      }
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Session destruction error:', err);
+          return res.status(500).json({ error: 'Failed to destroy session' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.send('Logged out successfully');
+      });
+    });
+  } else {
+    res.status(400).json({ error: 'Logout not supported' });
+  }
 });
 
 module.exports = router;
