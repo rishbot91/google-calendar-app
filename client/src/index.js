@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    fontFamily: "PT Sans", // Set Open Sans globally
+    fontFamily: '"Open Sans", Arial, sans-serif', // Set Open Sans globally
   },
   palette: {
     mode: 'dark', // Enables dark mode 
