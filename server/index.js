@@ -9,7 +9,7 @@ const app = express();
 
 // CORS Setup
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://youreve.netlify.app/',
   methods: 'GET,POST',
   credentials: true,
 }));
