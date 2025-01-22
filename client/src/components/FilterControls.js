@@ -27,6 +27,7 @@ const FilterControls = ({
                 sx={{
                   backgroundColor: '#ffffff',
                   borderRadius: 2,
+                  border: '1px solid #fff'
                 }}
               />
             )}
