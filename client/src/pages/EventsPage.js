@@ -1,5 +1,3 @@
-// src/pages/EventsPage.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -8,20 +6,14 @@ import {
   Button,
   Container,
   CircularProgress,
+  Paper,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 import FilterControls from '../components/FilterControls';
 import EventTable from '../components/EventTable';
 
-/**
- * The main page showing:
- *  - A logout button
- *  - A "Filter" toggle button
- *  - The date pickers + "Apply Filter"
- *  - The table of events
- */
-const EventsPage = ({ handleLogout }) => {
+function EventsPage({ handleLogout }) {
   // loading events
   const [loading, setLoading] = useState(false);
   // all events from the server
@@ -35,7 +27,7 @@ const EventsPage = ({ handleLogout }) => {
   const [tempStart, setTempStart] = useState(null);
   const [tempEnd, setTempEnd] = useState(null);
 
-  // Toggles the display of the filter controls
+  // Toggles the display of the filter box
   const [showFilters, setShowFilters] = useState(false);
 
   // Fetch events on mount
@@ -57,7 +49,7 @@ const EventsPage = ({ handleLogout }) => {
     fetchEvents();
   }, []);
 
-  // Apply Filter => copy temp states to real filter states, then hide filters
+  // Apply Filter => copy temp states to real filter states, then hide the box
   const applyFilter = () => {
     setStartDateFilter(tempStart);
     setEndDateFilter(tempEnd);
@@ -68,14 +60,16 @@ const EventsPage = ({ handleLogout }) => {
   const filteredEvents = events
     .filter((event) => {
       const eventDate = new Date(event.start.dateTime || event.start.date);
+
       if (startDateFilter && eventDate < new Date(startDateFilter)) return false;
       if (endDateFilter && eventDate > new Date(endDateFilter)) return false;
+
       return true;
     })
     .sort((a, b) => {
       const dateA = new Date(a.start.dateTime || a.start.date);
       const dateB = new Date(b.start.dateTime || b.start.date);
-      // Descending order: most recent first
+      // Descending => most recent first
       return dateB - dateA;
     });
 
@@ -85,38 +79,71 @@ const EventsPage = ({ handleLogout }) => {
         Google Calendar Events
       </Typography>
 
+      {/* Top bar with Filter + Logout */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        {/* Logout Button */}
-        <Button variant="outlined" color="error" onClick={handleLogout}>
-          Logout
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Filter Button */}
+          <Button
+            variant="outlined"
+            startIcon={<FilterListIcon />}
+            onClick={() => setShowFilters((prev) => !prev)}
+            sx={{
+              borderRadius: '8px',
+              color: '#20B2AA',
+              borderColor: '#20B2AA',
+              '&:hover': {
+                borderColor: '#71fff8',
+                color: '#71fff8',
+              },
+            }}
+          >
+            Filter
+          </Button>
 
-        {/* Filter Toggle */}
+          
+        </Box>
+
         <Button
           variant="outlined"
-          startIcon={<FilterListIcon />}
-          onClick={() => setShowFilters((prev) => !prev)}
+          color="error"
+          onClick={handleLogout}
           sx={{
-            color: '#20B2AA',
-            borderColor: '#20B2AA',
+            borderRadius: '8px',
+            borderColor: 'rgb(221, 0, 0)',
             '&:hover': {
-              borderColor: '#71fff8',
-              color: '#71fff8',
+              backgroundColor: 'rgb(221, 0, 0)',
+              color: '#fff',
             },
           }}
         >
-          Filter
+          Logout
         </Button>
       </Box>
 
+      {/* 
+        Conditionally render a box (Paper) that shows the filters. 
+        This is a normal block element in the layout -> table is pushed down.
+      */}
       {showFilters && (
-        <FilterControls
-          tempStart={tempStart}
-          setTempStart={setTempStart}
-          tempEnd={tempEnd}
-          setTempEnd={setTempEnd}
-          applyFilter={applyFilter}
-        />
+        <Paper
+          elevation={1}
+          sx={{
+            display: 'inline-block',
+            mb: 3,             // margin-bottom to space it from the table
+            p: 2,              // padding
+            backgroundColor: '#000', // black background
+            color: '#fff',
+            borderRadius: '16px',
+          }}
+        >
+          <FilterControls
+            tempStart={tempStart}
+            setTempStart={setTempStart}
+            tempEnd={tempEnd}
+            setTempEnd={setTempEnd}
+            applyFilter={applyFilter}
+          />
+        </Paper>
       )}
 
       {loading ? (
@@ -129,6 +156,6 @@ const EventsPage = ({ handleLogout }) => {
       )}
     </Container>
   );
-};
+}
 
 export default EventsPage;
