@@ -35,7 +35,7 @@ function EventsPage({ handleLogout }) {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:4000/api/calendar/events', {
+        const response = await axios.get('https://google-calendar-app.onrender.com/api/calendar/events', {
           withCredentials: true,
         });
         setEvents(response.data);

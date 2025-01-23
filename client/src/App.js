@@ -16,7 +16,7 @@ function App() {
     const verifyUser = async () => {
       try {
         // Attempt to fetch some private endpoint
-        await axios.get('http://localhost:4000/api/calendar/events', {
+        await axios.get('https://google-calendar-app.onrender.com/api/calendar/events', {
           withCredentials: true,
         });
         setUser(true);
@@ -32,13 +32,13 @@ function App() {
 
   // Login Handler
   const handleLogin = () => {
-    window.location.href = 'http://localhost:4000/auth/google';
+    window.location.href = 'https://google-calendar-app.onrender.com/auth/google';
   };
 
   // Logout Handler
   const handleLogout = async () => {
     try {
-      await axios.get('http://localhost:4000/auth/logout', { withCredentials: true });
+      await axios.get('https://google-calendar-app.onrender.com/auth/logout', { withCredentials: true });
       setUser(false);
     } catch (error) {
       console.error('Logout failed:', error);
