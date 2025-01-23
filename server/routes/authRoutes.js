@@ -15,11 +15,11 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000/login?error=true',
+    failureRedirect: 'https://youreve.netlify.app//login?error=true',
   }),
   (req, res) => {
     // Successful authentication
-    res.redirect('http://localhost:3000/');
+    res.redirect('https://youreve.netlify.app/');
   }
 );
 
