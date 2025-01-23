@@ -7,6 +7,8 @@ require('./passport-setup'); // We will create this next
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 // CORS Setup
 app.use(cors({
   origin: 'https://youreve.netlify.app/',
@@ -21,6 +23,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: 'none', // crucial for cross-site cookies
+    secure: true,   
   }
 }));
 

@@ -15,7 +15,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'https://youreve.netlify.app//login?error=true',
+    failureRedirect: 'https://youreve.netlify.app/login?error=true',
   }),
   (req, res) => {
     // Successful authentication
